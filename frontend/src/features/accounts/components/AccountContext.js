@@ -24,6 +24,7 @@ const AccountProvider = ({ children }) => {
   const [accounts, setAccounts] = useState([]);
   const [filter, setFilter] = useState(''); // 
   const [filteredAccounts, setFilteredAccounts] = useState(accounts); // Liste des accounts filtrer par rapport a la recherche
+  const [compteur, setCompteur] = useState(0);
 
   useEffect(() => {
     findAll()
@@ -37,23 +38,21 @@ const AccountProvider = ({ children }) => {
   },
     [filter, accounts]);
 
-
   const addAccounts = (account) => {
     account = { ...account, idAccount: new Date().getTime() }
     create(account);
-    setAccounts([...accounts, account])
+    setCompteur(compteur + 1)
   };
 
   const updateAccounts = (_account) => {
     const _accounts = accounts.map((account) => account.idAccount === _account.idAccount ? _account : account)
     update(_account.idAccount, _account)
-    setAccounts(_accounts);
+    setCompteur(compteur + 1)
   };
 
   const deleteAccount = (id) => {
-    const _accounts = accounts.filter(account => account.idAccount !== id);
     destroy(id);
-    setAccounts(_accounts);
+    setCompteur(compteur + 1)
   }
 
   //------------------------------Liste page functions

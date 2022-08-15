@@ -3,7 +3,7 @@ import { CardHeader, Card, CardContent, Stack, TextField, Button, CardActions, L
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import AppLayout from '../../layout/AppLayout';
 import { useClientContext } from './ClientContext';
-import {findById} from "../client.service";
+import { findById } from "../client.service";
 
 const ClientDetails = () => {
 
@@ -18,7 +18,7 @@ const ClientDetails = () => {
     const [open, setOpen] = useState(false); //State lié a la boite de dialogue
 
     //----------------------------------------------------------Functions
-    const {id} = useParams();
+    const { id } = useParams();
 
     const handleClose = () => setOpen(false); //Pour fermer la boite de dialogue
 
@@ -43,29 +43,34 @@ const ClientDetails = () => {
             )}
             {loading && (
                 <Box display={"flex"} flex={1}>
-                    <CircularProgress/>
+                    <CircularProgress />
                 </Box>
             )}
             {!loading && client && (
-            <Card>
-                <CardHeader title={'Details du client'} />
-                <CardContent>
-                    <Stack spacing={3}>
-                    <TextField value={client?.idClient} label={'Id'} InputProps={{readOnly: true}}/>
-                            <TextField value={client?.lastName} label={'Nom'} InputProps={{readOnly: true}}/>
-                            <TextField value={client?.firstName} label={'Prenom'} InputProps={{readOnly: true}}/>
-                            <TextField value={client?.address} label={'Adresse'} InputProps={{readOnly: true}}/>
-                    </Stack>
-                </CardContent>
-                <CardActions sx={{ ml: 1, mb: 2 }}>
-                    <MuiLink component={Link} to={'/clients/update/' + client.idClient}>
-                        <Button variant='contained'>Modifier</Button>
-                    </MuiLink>
-                    <Button variant='contained' onClick={() => { setIdToDelete(client.idClient); setOpen(true) }} sx={{ color: 'white', background: 'red', '&:hover': { background: "red" }, ml: 1 }}>
-                        Suprimer
-                    </Button>
-                </CardActions>
-            </Card>
+                <Card>
+                    <CardHeader title={'Details du client'} />
+                    <CardContent>
+                        <Stack spacing={3}>
+                            <TextField value={client?.idClient} label={'Id'} InputProps={{ readOnly: true }} />
+                            <TextField value={client?.lastName} label={'Nom'} InputProps={{ readOnly: true }} />
+                            <TextField value={client?.firstName} label={'Prenom'} InputProps={{ readOnly: true }} />
+                            <TextField value={client?.address} label={'Adresse'} InputProps={{ readOnly: true }} />
+                        </Stack>
+                    </CardContent>
+                    <CardActions sx={{ ml: 1, mr: 1, mb: 2, justifyContent: 'space-between' }}>
+                        <MuiLink component={Link} to={'/clients'}>
+                            <Button variant='contained'>Retour</Button>
+                        </MuiLink>
+                        <Box>
+                            <MuiLink component={Link} to={'/clients/update/' + client.idClient}>
+                                <Button variant='contained'>Modifier</Button>
+                            </MuiLink>
+                            <Button variant='contained' onClick={() => { setIdToDelete(client.idClient); setOpen(true) }} sx={{ color: 'white', background: 'red', '&:hover': { background: "red" }, ml: 1 }}>
+                                Suprimer
+                            </Button>
+                        </Box>
+                    </CardActions>
+                </Card>
             )}
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Suppression</DialogTitle>

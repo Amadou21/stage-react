@@ -10,6 +10,8 @@ export const ClientContext = createContext({
   filteredClients: [],
   setFilter: (filter) => { },
   posts: [],
+  loading: () => { },
+  setLoading: () => { },
 });
 
 export const useClientContext = () => useContext(ClientContext);
@@ -24,36 +26,39 @@ const ClientProvider = ({ children }) => {
   const [clients, setClients] = useState([]);
   const [filter, setFilter] = useState(''); // 
   const [filteredClients, setFilteredClients] = useState(clients); // Liste des clients filtrer par rapport a la recherche
+  const [loading, setLoading] = useState(true);
+  const [compteur, setCompteur] = useState(0);
 
   useEffect(() => {
     findAll()
       .then(clients => setClients(clients));
-  }, [setClients]);
+    setLoading(false);
+  }, [compteur]);
 
   useEffect(() => { //Use effect sert a reactualser la recherche apres chaque changement de filter qui est lier au textFild de la recherche
     const _filter = filter.toLowerCase();
     const _filteredClients = clients.filter(client => match(client, _filter));
-    setFilteredClients(_filteredClients)
+    setFilteredClients(_filteredClients);
+    setLoading(false);
   },
     [filter, clients]);
 
 
   const addClients = (client) => {
-    client = { ...client, idClient: new Date().getTime() }
+    client = { ...client }
     create(client);
-    setClients([...clients, client])
+    setCompteur(compteur + 1)
   };
 
   const updateClients = (_client) => {
     const _clients = clients.map((client) => client.idClient === _client.idClient ? _client : client)
-    update(_client.idClient,_client)
-    setClients(_clients);
+    update(_client.idClient, _client)
+    setCompteur(compteur + 1)
   };
 
   const deleteClient = (id) => {
-    const _clients = clients.filter(client => client.idClient !== id);
     destroy(id);
-    setClients(_clients);
+    setCompteur(compteur + 1)
   }
 
   //------------------------------Liste page functions
@@ -66,6 +71,8 @@ const ClientProvider = ({ children }) => {
     filter,
     filteredClients,
     setFilter,
+    loading,
+    setLoading
   }
 
   return (

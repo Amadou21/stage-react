@@ -12,7 +12,7 @@ const ListPage = () => {
     const { clients, deleteClient, filter, filteredClients, setFilter } = useClientContext();
     const [idToDelete, setIdToDelete] = useState();
     const [open, setOpen] = useState(false);
-
+   
     const handleClose = () => setOpen(false); // Pour fermer la boite de dialogue
 
     const handleDelete = () => {
@@ -23,7 +23,7 @@ const ListPage = () => {
     return (
         <AppLayout>
             <MuiLink component={Link} to={'/clients/new'}>
-                <Button variant='contained'  sx={{mb : 2}}><AddCircleIcon sx={{ mr: 0.5 }} />Ajouter un nouveau client</Button>
+                <Button variant='contained' sx={{ mb: 2 }}><AddCircleIcon sx={{ mr: 0.5 }} />Ajouter un nouveau client</Button>
             </MuiLink>
             <Card elevation={4} >
                 <Box sx={{ margin: 2, justifyContent: 'space-between', display: 'flex' }}>
@@ -51,6 +51,7 @@ const ListPage = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
+
                             {filteredClients.map(client => (
                                 <TableRow key={client.idClient}>
                                     <TableCell>{client.idClient}</TableCell><TableCell>{client.lastName}</TableCell>
