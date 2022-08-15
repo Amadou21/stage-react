@@ -57,6 +57,7 @@ const ClientProvider = ({ children }) => {
   };
 
   const deleteClient = (id) => {
+    
     destroy(id);
     setCompteur(compteur + 1)
   }

@@ -8,26 +8,21 @@ const create = async (client) => {
 
 const findAll = async () => {
     const clients = await ClientModel.findAll();
-
     return clients;
 }
 
 const findById = async (id) => {
-    idClient = +id;
-    const client = await ClientModel.findOne({ where: { idClient } });
-
+    const client = await ClientModel.findOne({ where: { idClient:id } });
     console.log({ client });
-
     return client;
 }
 
 const update = async (id, client) => {
-    const _client = await ClientModel.update(client, { where: {  idClient : id } });
+    await ClientModel.update(client, { where: { idClient: id } });
 }
 
 const destroy = async (id) => {
-    idClient = +id;
-    await ClientModel.destroy({ where: { idClient : id } });
+    await ClientModel.destroy({ where: { idClient: id } });
 }
 
 
