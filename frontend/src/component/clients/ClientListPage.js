@@ -114,65 +114,70 @@ const ClientListPage = () => {
 
   return (
     <div>
-      <Navbar />
-      <Card>
-        <CardHeader title={<h1>Liste des clients</h1>} />
-        <CardContent>
-          <TextField
-            value={laRecherche}
-            onChange={(e) => setLaRecherche(e.target.value)}
-            InputProps={{
-              startAdornment: <Search />,
-              endAdornment: laRecherche && (
-                <IconButton onClick={() => setLaRecherche("")}>
-                  <Clear />
-                </IconButton>
-              ),
-            }}
+      <Navbar>
+        <Card>
+          <CardHeader
+            title={<h1 style={{ textAlign: "center" }}>Liste des clients</h1>}
           />
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Id</TableCell>
-                  <TableCell>Nom</TableCell>
-                  <TableCell>Prenom</TableCell>
-                  <TableCell>Adresse</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {/* ----------------------------- */}
-                {clientTrouverParRecherche.map((client) => (
-                  <Lignes
-                    key={client.idClient}
-                    client={client}
-                    onDelete={() => {
-                      setIdClientToDelete(client.idClient);
-                      setopenDialog(true);
-                    }}
-                  />
-                ))}
+          <CardContent>
+            <TextField
+              value={laRecherche}
+              onChange={(e) => setLaRecherche(e.target.value)}
+              InputProps={{
+                startAdornment: <Search />,
+                endAdornment: laRecherche && (
+                  <IconButton onClick={() => setLaRecherche("")}>
+                    <Clear />
+                  </IconButton>
+                ),
+              }}
+            />
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Id</TableCell>
+                    <TableCell>Nom</TableCell>
+                    <TableCell>Prenom</TableCell>
+                    <TableCell>Adresse</TableCell>
+                    <TableCell>Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {/* ----------------------------- */}
+                  {clientTrouverParRecherche.map((client) => (
+                    <Lignes
+                      key={client.idClient}
+                      client={client}
+                      onDelete={() => {
+                        setIdClientToDelete(client.idClient);
+                        setopenDialog(true);
+                      }}
+                    />
+                  ))}
 
-                {/* ----------------------------- */}
-              </TableBody>
-            </Table>
-            <Typography sx={{ mt: 2, textAlign: "end" }}>
-              {clientTrouverParRecherche.length}/{clients.length} client(s)
-            </Typography>
-          </TableContainer>
-        </CardContent>
-      </Card>
+                  {/* ----------------------------- */}
+                </TableBody>
+              </Table>
+              <Typography sx={{ mt: 2, textAlign: "end" }}>
+                {clientTrouverParRecherche.length}/{clients.length} client(s)
+              </Typography>
+            </TableContainer>
+          </CardContent>
+        </Card>
 
-      <Dialog open={openDialog}>
-        {/*onClose={}*/}
-        <DialogTitle>Attention</DialogTitle>
-        <DialogContent>Voulez vous vraiment supprimer ce client?</DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Non</Button>
-          <Button onClick={handleDelete}>Oui</Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={openDialog}>
+          {/*onClose={}*/}
+          <DialogTitle>Attention</DialogTitle>
+          <DialogContent>
+            Voulez vous vraiment supprimer ce client?
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Non</Button>
+            <Button onClick={handleDelete}>Oui</Button>
+          </DialogActions>
+        </Dialog>
+      </Navbar>
     </div>
   );
 };

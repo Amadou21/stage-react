@@ -23,16 +23,21 @@ const UserList = () => {
   console.log(users);
   return (
     <div>
-      <Navbar />
-      <Grid container spacing={3}>
-        {users?.map((user) => (
-          <Grid key={user.id} item xs={6} md={4} lg={3}>
-            <MuiLink component={Link} to={"/users/" + user.id} underline="none">
-              <UserCard user={user} />
-            </MuiLink>
-          </Grid>
-        ))}
-      </Grid>
+      <Navbar>
+        <Grid container spacing={3}>
+          {users?.map((user) => (
+            <Grid key={user.id} item xs={6} md={4} lg={3}>
+              <MuiLink
+                component={Link}
+                to={"/users/" + user.id}
+                underline="none"
+              >
+                <UserCard user={user} />
+              </MuiLink>
+            </Grid>
+          ))}
+        </Grid>
+      </Navbar>
     </div>
   );
 };

@@ -51,10 +51,7 @@ const App = () => {
           <Route
             path={"clients"}
             element={
-              <ClientListPage
-              // liste_clients={clients}
-              // deleteClient={supprimerClient}
-              />
+              <ClientListPage /> // liste_clients={clients} deleteClient={supprimerClient}
             }
           />
           <Route

@@ -1,0 +1,10 @@
+<Collapse in={openClientsCollapse} timeout="auto" unmountOnExit>
+    <List component="div" disablePadding>
+        <ListItemButton sx={{ pl: 4 }}>
+        <ListItemIcon>
+            <StarBorder />
+        </ListItemIcon>
+        <ListItemText primary="Starred" />
+        </ListItemButton>
+    </List>
+</Collapse>
