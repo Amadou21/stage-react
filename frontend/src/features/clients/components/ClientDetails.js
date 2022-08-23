@@ -1,52 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CardHeader, Card, CardContent, Stack, TextField, Button, CardActions, Link as MuiLink, DialogTitle, Dialog, DialogContent, DialogActions, CircularProgress, Box, Typography } from '@mui/material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import AppLayout from '../../layout/AppLayout';
-import { useClientContext } from './ClientContext';
-import { findById } from "../client.service";
+import { useClientById, useDelete } from '../client.store';
 
 const ClientDetails = () => {
 
-    const { deleteClient } = useClientContext();
-    const [client, setClient] = useState();
-    const [loading, setLoading] = useState(true);
-
+    const { id } = useParams();
+    const {client, isLoading} = useClientById(id);
+    const { remove } = useDelete();
     const navigate = useNavigate();
 
-    //----------------------------------------------------------State
     const [idToDelete, setIdToDelete] = useState();
     const [open, setOpen] = useState(false); //State lié a la boite de dialogue
 
     //----------------------------------------------------------Functions
-    const { id } = useParams();
 
     const handleClose = () => setOpen(false); //Pour fermer la boite de dialogue
-
     const handleDelete = () => {
-        deleteClient(idToDelete);
+        remove(idToDelete);
         navigate('/clients')
     }
 
-    useEffect(() => {
-        findById(id).then(client => {
-            setClient(client);
-            setLoading(false);
-        })
-    }, [id]);
-
     return (
         <AppLayout>
-            {!client && !loading && (
+            {!client && !isLoading && (
                 <Box display={"flex"} flex={1}>
                     <Typography> {"Le client avec l'id " + id + " n'existe pas"}</Typography>
                 </Box>
             )}
-            {loading && (
+            {isLoading && (
                 <Box display={"flex"} flex={1}>
                     <CircularProgress />
                 </Box>
             )}
-            {!loading && client && (
+            {!isLoading && client && (
                 <Card>
                     <CardHeader title={'Details du client'} />
                     <CardContent>

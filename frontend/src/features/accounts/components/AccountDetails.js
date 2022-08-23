@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CardHeader, Card, CardContent, Stack, TextField, Button, CardActions, Link as MuiLink, DialogTitle, Dialog, DialogContent, DialogActions, CircularProgress, Box, Typography } from '@mui/material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import AppLayout from '../../layout/AppLayout';
-import { useAccountContext } from './AccountContext';
-import { findById } from "../account.service";
+import { useAccountById, useDelete } from '../account.store';
 
 const AccountDetails = () => {
 
-    const { deleteAccount } = useAccountContext();
-    const [account, setAccount] = useState();
-    const [loading, setLoading] = useState(true);
-
+    const { id } = useParams();
+    const { account , isLoading } = useAccountById(id);
+    const { remove } = useDelete();
     const navigate = useNavigate();
 
     //----------------------------------------------------------State
@@ -18,35 +16,27 @@ const AccountDetails = () => {
     const [open, setOpen] = useState(false); //State lié a la boite de dialogue
 
     //----------------------------------------------------------Functions
-    const { id } = useParams();
 
     const handleClose = () => setOpen(false); //Pour fermer la boite de dialogue
 
     const handleDelete = () => {
-        deleteAccount(idToDelete);
+        remove(idToDelete);
         navigate('/accounts')
     }
 
-    useEffect(() => {
-        findById(id).then(account => {
-            setAccount(account);
-            setLoading(false);
-        })
-    }, [id]);
-
     return (
         <AppLayout>
-            {!account && !loading && (
+            {!account && !isLoading && (
                 <Box display={"flex"} flex={1}>
                     <Typography> {"Le Account avec l'id " + id + " n'existe pas"}</Typography>
                 </Box>
             )}
-            {loading && (
+            {isLoading && (
                 <Box display={"flex"} flex={1}>
                     <CircularProgress />
                 </Box>
             )}
-            {!loading && account && (
+            {!isLoading && account && (
                 <Card>
                     <CardHeader title={'Details du Account'} />
                     <CardContent>

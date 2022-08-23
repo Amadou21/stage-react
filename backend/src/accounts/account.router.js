@@ -1,9 +1,7 @@
 const { Router } = require('express');
 const service = require('./account.service');
 
-
 const path = '/accounts';
-
 
 const create = async (req, res) => {
     let account = req.body;
@@ -40,7 +38,6 @@ const destroy = async (req, res) => {
 
 const addRoutes = (app) => {
     const router = Router();
-
     router.post('/', create)
     router.put('/:id', update)
     router.delete('/:id', destroy)

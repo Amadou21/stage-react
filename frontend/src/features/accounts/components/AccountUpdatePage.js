@@ -2,15 +2,14 @@ import { CardHeader, Card, CardContent, Stack, TextField, CardActions, Button } 
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AppLayout from '../../layout/AppLayout';
+import { useUpdate } from '../account.store';
 import { useAccountContext } from './AccountContext';
 
 const UpdatePage = () => {
 
-    const { accounts, updateAccounts } = useAccountContext();
-
-    const { id } = useParams(); // On recup l'id se trouvant dans l'url
-
-    console.log('id:', id);
+    const { id } = useParams();
+    const { update } = useUpdate();
+    const { accounts } = useAccountContext();
 
     const navigate = useNavigate();
     const Account = accounts.find(Account => Account.idAccount === +id);// et on recupere le Account correspondant a l'id de l'url
@@ -27,7 +26,7 @@ const UpdatePage = () => {
         const _Account = {
             ...Account, firstName, lastName, address, email, age
         }//on initialise un objet _Account avec les valeurs des states
-        updateAccounts(_Account); //et on la passe a la fonctio recuperer en props
+        update({id, ..._Account}); //et on la passe a la fonctio recuperer en props
         navigate('/Accounts')
     }
 

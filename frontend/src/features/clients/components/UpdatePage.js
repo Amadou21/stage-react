@@ -2,33 +2,31 @@ import { CardHeader, Card, CardContent, Stack, TextField, CardActions, Button } 
 import React, {useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AppLayout from '../../layout/AppLayout';
+import { useUpdate } from '../client.store';
 import { useClientContext } from './ClientContext';
 
 
 const UpdatePage = () => {
 
-    const { clients, updateClients } = useClientContext();
-
+    const { clients } = useClientContext();
+    const { update } = useUpdate();
     const { id } = useParams(); // On recup l'id se trouvant dans l'url
-
-    console.log('id:', id);
-
-    const navigate = useNavigate();
     const client = clients.find(client => client.idClient === +id);// et on recupere le client correspondant a l'id de l'url
 
     //----------------------------------------------------------States
-    const [lastName, setLastName] = useState(client?.lastName); //On les initailse directement aux valeurs recup dans client
-    const [firstName, setFirstName] = useState(client?.firstName);//Pour les afficher dans TextField
+    const [lastName, setLastName] = useState(client?.lastName);
+    const [firstName, setFirstName] = useState(client?.firstName);
     const [address, setAddress] = useState(client?.address);
     const [email, setEmail] = useState(client?.email);
     const [age, setAge] = useState(client?.age);
+    const navigate = useNavigate();
 
     //-------------------------------------------------------Functions
     const handleSubmit = () => {
         const _client = {
             ...client, firstName, lastName, address, email, age
-        }//on initialise un objet _client avec les valeurs des states
-        updateClients(_client); //et on la passe a la fonctio recuperer en props
+        }
+        update({id, ..._client}); 
         navigate('/clients')
     }
 

@@ -2,13 +2,13 @@ import { CardHeader, Card, CardContent, Stack, TextField, CardActions, Button } 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppLayout from '../../layout/AppLayout';
-import { useClientContext } from './ClientContext';
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
+import { useCreate } from '../client.store';
 
 const CreatePage = () => {
 
-    const { addClients } = useClientContext();
+    const {create} = useCreate()
     const navigate = useNavigate();
 
     const minAge = 18;
@@ -28,8 +28,8 @@ const CreatePage = () => {
         validationSchema: ClientSchema,
         initialValues: ClientSchema.getDefaultFromShape(),
         onSubmit: (client, { resetForm, setSubmitting }) => {
+            create({...client});
             console.log(client);
-            addClients(client);
             navigate('/clients');
         }
     })

@@ -6,17 +6,21 @@ import { useAccountContext } from './AccountContext';
 import { Link } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LongMenu from './LongMenu';
+import { useAccounts, useDelete } from '../account.store';
 
 const AccountListPage = () => {
 
-    const { accounts, deleteAccount, filter, filteredAccounts, setFilter } = useAccountContext();
+    const { accounts } = useAccounts();
+    const { remove } = useDelete();
+
+    const { filter, filteredAccounts, setFilter } = useAccountContext();
     const [idToDelete, setIdToDelete] = useState();
     const [open, setOpen] = useState(false);
 
     const handleClose = () => setOpen(false); // Pour fermer la boite de dialogue
 
-    const handleDelete = () => {
-        deleteAccount(idToDelete); //On supprimer le Account via la fonction passé en props du state principale Accounts
+    const handleDelete = async () => {
+        remove(idToDelete);
         setOpen(false);
     }
 
@@ -57,7 +61,7 @@ const AccountListPage = () => {
                                     <TableCell>{Account.firstName}</TableCell><TableCell>{Account.address}</TableCell>
                                     <TableCell>{Account.email}</TableCell><TableCell>{Account.age}</TableCell>
                                     <TableCell>
-                                        <LongMenu Account={Account} deleteAccount={deleteAccount} setOpen={setOpen} onDelete={() => { setIdToDelete(Account.idAccount); setOpen(true) }} />
+                                        <LongMenu Account={Account} setOpen={setOpen} onDelete={() => { setIdToDelete(Account.idAccount); setOpen(true) }} />
                                     </TableCell>
                                 </TableRow>
                             ))}

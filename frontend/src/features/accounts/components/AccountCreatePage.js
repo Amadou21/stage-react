@@ -2,13 +2,13 @@ import { CardHeader, Card, CardContent, Stack, TextField, CardActions, Button } 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppLayout from '../../layout/AppLayout';
-import { useAccountContext } from './AccountContext';
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
+import { useCreate } from '../account.store';
 
 const AccountCreatePage = () => {
 
-    const { addAccounts } = useAccountContext();
+    const { create } = useCreate()
     const navigate = useNavigate();
 
     const minAge = 18;
@@ -29,7 +29,8 @@ const AccountCreatePage = () => {
         initialValues: AccountSchema.getDefaultFromShape(),
         onSubmit: (account, { resetForm, setSubmitting }) => {
             console.log(account);
-            addAccounts(account);
+            create({...account});
+            console.log(account);
             navigate('/accounts');
         }
     })

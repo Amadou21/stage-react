@@ -33,7 +33,6 @@ const App = () => {
               <Route path={'/accounts/:id'} element={<AccountDetails />} />
               <Route path={'/accounts/new'} element={<AccountCreatePage />} />
               <Route path={'/accounts/update/:id'} element={<AccountUpdatePage />} />
-
             </Routes>
           </BrowserRouter>
         </AccountProvider>

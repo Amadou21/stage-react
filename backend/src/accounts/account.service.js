@@ -13,21 +13,19 @@ const findAll = async () => {
 }
 
 const findById = async (id) => {
-    idAccount = +id;
+    let idAccount = +id;
     const account = await AccountModel.findOne({ where: { idAccount } });
-
     console.log({ account });
 
     return account;
 }
 
 const update = async (id, account) => {
-    const _account = await AccountModel.update(account, { where: {  idAccount : id } });
+    const _account = await AccountModel.update(account, { where: { idAccount: id } });
 }
 
 const destroy = async (id) => {
-    idAccount = +id;
-    await AccountModel.destroy({ where: { idAccount : id } });
+    await AccountModel.destroy({ where: { idAccount: id } });
 }
 
 
