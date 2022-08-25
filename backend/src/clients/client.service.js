@@ -25,7 +25,7 @@ const findAll = async () => {
 
 const findById = async (id) => {
   id = +id;
-  const client = await ClientModel.findOne({ where: { id } });
+  const client = await ClientModel.findOne({ where: { idClient: id } });
 
   console.log({ client });
 

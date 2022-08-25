@@ -1,13 +1,6 @@
-// import * as React from 'react';
-// import { Search } from '@mui/icons-material';
-// import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from "@mui/material/styles";
-// import SearchIcon from '@mui/icons-material/Search';
-// import { AppBar, IconButton, Toolbar, Box, Typography, Link as MuiLink, Button } from '@mui/material';
-import { Link as MuiLink, Button, Container, Menu, Stack } from "@mui/material";
-// import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
-// import InputBase from '@mui/material/InputBase';
+import { Container, Menu } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Divider from "@mui/material/Divider";
@@ -15,13 +8,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
-// import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -32,29 +22,33 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import MuiAppBar from "@mui/material/AppBar";
 import { Drawer, DrawerHeader } from "./SlideBar";
-import PeopleIcon from "@mui/icons-material/People";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import PersonIcon from "@mui/icons-material/Person";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Collapse, MenuItem } from "@mui/material";
-import { FormatAlignRight, StarBorder } from "@mui/icons-material";
+import { StarBorder } from "@mui/icons-material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+// import PostAddIcon from "@mui/icons-material/PostAdd";
+// import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+
+const menuClients = [
+  {
+    label: "Liste des clients",
+    link: "/clients",
+    icon: <FormatListBulletedIcon />,
+  },
+  {
+    label: "Ajouter un client",
+    link: "/create_client",
+    icon: <AddCircleOutlineIcon />,
+  },
+];
+// const menuAccounts = [{ label: "Liste des accounts", link: "/accounts" }];
 
 const drawerWidth = 240;
-
-{
-  /* import ReactDOM from 'react-dom/client';
-
-// const barnav = ReactDOM.createRoot(document.getElementById('barnav'));
-// barnav.render(
-//     <React.StrictMode>
-//         <Navbar />
-
-//     </React.StrictMode>
-// );
-*/
-}
 //------------------------------------------------------------------------------------------------
 
 const AppBar = styled(MuiAppBar, {
@@ -119,48 +113,36 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = ({ children }) => {
+  // useTheme
   const theme = useTheme();
+  //useState
   const [open, setOpen] = React.useState(false);
   const [openClients, setOpenClients] = React.useState(false);
   const [openAccounts, setOpenAccounts] = React.useState(false);
-  const [openClientsCollapse, setOpenClientsCollapse] = React.useState(false);
   const [openAccountsCollapse, setOpenAccountsCollapse] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const [pousserAdroite, setPousserAdroite] = React.useState(10);
+  const navigate = useNavigate();
 
-  const [pousserEnBas, setPousserEnBas] = React.useState(10);
-
-  // React.useEffect(() => {
-  //   {
-  //     open ? setPousser_contenu(50) : setPousser_contenu(5);
-  //   }
-  //   alert(pousser_contenu);
-  // }, [pousser_contenu]);
-
+  //comportements
   const handleDrawerOpen = () => {
     setOpen(true);
-    setPousserAdroite(30);
-    setPousserEnBas(20);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-    setPousserAdroite(10);
-    setPousserEnBas(10);
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open2 = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+
   const handleClose = () => {
     setOpenClients(false);
     setAnchorEl(null);
   };
 
   const collapseClients = () => {
-    //event
-    setOpenAccountsCollapse(openClientsCollapse ? false : true);
     setOpenClients(openClients ? false : true);
     // setAnchorEl(event.currentTarget);
   };
@@ -172,8 +154,6 @@ const Navbar = ({ children }) => {
     setOpenAccounts(openAccounts ? false : true);
   };
 
-  const navigate = useNavigate();
-
   const pageAccueil = () => {
     navigate("/");
   };
@@ -184,7 +164,7 @@ const Navbar = ({ children }) => {
       <AppBar position="fixed" open={open}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/*------------------------------------------------------*/}
-          <Box>
+          <Box display="flex" alignItems={"center"}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -198,47 +178,32 @@ const Navbar = ({ children }) => {
               <MenuIcon />
             </IconButton>
             {/*------------------------------------------------------*/}
-            <Button sx={{ color: "white" }} onClick={pageAccueil}>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                title="Accueil"
-              >
-                <HomeIcon />
-              </IconButton>
+            <Box
+              sx={{
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+                transition: (theme) => theme.transitions.create("all"),
+                ":hover": {
+                  transform: "scale(1.05)",
+                },
+                ":active": {
+                  transform: "scale(0.95)",
+                },
+              }}
+              onClick={pageAccueil}
+            >
+              <HomeIcon />
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+                sx={{ ml: 1, display: { xs: "none", sm: "block" } }}
               >
                 App Client
               </Typography>
-            </Button>
+            </Box>
           </Box>
-
-          {/* <Box>
-            <MuiLink component={Link} to="/clients">
-              <Button sx={{ color: "white", "&:hover": { color: "black" } }}>
-                Liste des clients
-              </Button>
-            </MuiLink>
-            <MuiLink component={Link} to="/create_client">
-              <Button sx={{ color: "white", "&:hover": { color: "black" } }}>
-                Ajout de clients
-              </Button>
-            </MuiLink>
-            <MuiLink component={Link} to="/users">
-              <Button sx={{ color: "white", "&:hover": { color: "black" } }}>
-                Utilisateurs
-              </Button>
-            </MuiLink>
-            <MuiLink component={Link} to="/test_context">
-              <Button sx={{ color: "white", "&:hover": { color: "black" } }}>
-                Test Context
-              </Button>
-            </MuiLink>
-          </Box> */}
 
           <Box sx={{ justifyContent: "right" }}>
             <Search sx={{ justifyContent: "end", display: "inline-block" }}>
@@ -265,13 +230,10 @@ const Navbar = ({ children }) => {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem disablePadding sx={{ display: "block" }} title="Clients">
             <ListItemButton
               onClick={(event) => {
                 collapseClients();
-                // anchorEl == null
-                //   ? setAnchorEl(event.currentTarget)
-                //   : setAnchorEl(null);
                 setAnchorEl(anchorEl == null ? event.currentTarget : null);
               }}
               sx={{
@@ -304,37 +266,24 @@ const Navbar = ({ children }) => {
             color={"red"}
             sx={{ color: "black" }}
           >
-            <MenuItem
-              disableRipple
-              onClick={() => {
-                handleClose();
-                navigate("/clients");
-              }}
-            >
-              {/* <EditIcon /> */}
-              <IconButton>
-                <FormatListBulletedIcon />
-              </IconButton>
-              Liste des clients
-            </MenuItem>
-
+            {menuClients.map((menu) => (
+              <MenuItem
+                key={menu.link}
+                disableRipple
+                onClick={() => {
+                  handleClose();
+                  navigate(menu.link);
+                }}
+              >
+                {/* <EditIcon /> */}
+                <IconButton>{menu.icon}</IconButton>
+                {menu.label}
+              </MenuItem>
+            ))}
             {/* <Divider sx={{ my: 0.5 }} /> */}
-            <MenuItem
-              disableRipple
-              onClick={() => {
-                handleClose();
-                navigate("/create_client");
-              }}
-            >
-              {/* <FileCopyIcon /> */}
-              <IconButton>
-                <AddCircleOutlineIcon />
-              </IconButton>
-              Ajouter un client
-            </MenuItem>
           </Menu>
           {/* -------------------------------------------------------------------------------- */}
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem disablePadding sx={{ display: "block" }} title="Comptes">
             <ListItemButton
               onClick={collapseAccounts}
               sx={{
@@ -350,7 +299,7 @@ const Navbar = ({ children }) => {
                   justifyContent: "center",
                 }}
               >
-                <PeopleIcon />
+                <AccountBoxIcon />
               </ListItemIcon>
               <ListItemText
                 primary={"Comptes"}
@@ -370,6 +319,8 @@ const Navbar = ({ children }) => {
               </ListItemButton>
             </List>
           </Collapse>
+          {/* ---------------------------------------------------------------- */}
+          <UtilisateurListItem open={open} />
         </List>
       </Drawer>
 
@@ -381,10 +332,51 @@ const Navbar = ({ children }) => {
           mt: 10,
         }}
       >
-        <Typography paragraph>{children}</Typography>
+        {children}
       </Container>
     </Box>
   );
 };
 
 export default Navbar;
+
+function UtilisateurListItem({ open }) {
+  const theme = useTheme();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const isSelected = pathname === "/users";
+  const color = isSelected ? theme.palette.primary.light : null;
+
+  return (
+    <ListItem
+      disablePadding
+      sx={{
+        display: "block",
+      }}
+      title="Utilisateurs"
+    >
+      <ListItemButton
+        onClick={() => {
+          navigate("/users");
+        }}
+        sx={{
+          minHeight: 48,
+          justifyContent: open ? "initial" : "center",
+          px: 2.5,
+        }}
+      >
+        <ListItemIcon
+          sx={{
+            minWidth: 0,
+            mr: open ? 3 : "auto",
+            justifyContent: "center",
+          }}
+        >
+          <PeopleAltIcon sx={{ color }} />
+        </ListItemIcon>
+        <ListItemText primary={"Utilisateurs"} sx={{ opacity: open ? 1 : 0 }} />
+      </ListItemButton>
+    </ListItem>
+  );
+}

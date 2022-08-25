@@ -15,9 +15,6 @@ import { Form, useFormik, FormikProvider } from "formik";
 import * as Yup from "yup";
 
 const CreateClientPage = () => {
-  //{ addClient }
-
-  // state
   const { ajouterClient } = useClientContext();
   const navigate = useNavigate();
 
@@ -26,6 +23,7 @@ const CreateClientPage = () => {
     navigate("/clients");
   };
 
+  // state
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [adresse, setAdresse] = useState("");
@@ -38,7 +36,7 @@ const CreateClientPage = () => {
     };
     ajouterClient(client);
     navigate("/clients");
-    console.log("salut c'est fait ");
+    alert("client ajouter ");
   };
   //----------------------------------------------------------------
 
@@ -73,60 +71,56 @@ const CreateClientPage = () => {
 
   //----------------------------------------------------------------
   return (
-    <div>
-      <Navbar>
-        <FormikProvider value={formik}>
-          <Form>
-            <Card>
-              <CardHeader
-                title={
-                  <h2 style={{ textAlign: "center" }}>
-                    Creer un nouveau client
-                  </h2>
-                }
-              />
-              <CardContent>
-                <Stack spacing={3}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Nom"
-                    variant="outlined"
-                    name={"nom"}
-                    onChange={(e) => setNom(e.target.value)}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label="Prenom"
-                    variant="outlined"
-                    name={"prenom"}
-                    onChange={(e) => setPrenom(e.target.value)}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label="Adresse"
-                    variant="outlined"
-                    name={"Adresse"}
-                    onChange={(e) => setAdresse(e.target.value)}
-                  />
-                </Stack>
-              </CardContent>
-              <CardActions sx={{ justifyContent: "flex-end" }}>
-                <Button variant={"contained"} onClick={retour}>
-                  Retour
-                </Button>
-                <Button
-                  variant={"contained"}
-                  type={"submit"}
-                  onClick={handleCreate}
-                >
-                  Ajouter
-                </Button>
-              </CardActions>
-            </Card>
-          </Form>
-        </FormikProvider>
-      </Navbar>
-    </div>
+    <Navbar>
+      <FormikProvider value={formik}>
+        <Form>
+          <Card>
+            <CardHeader
+              title={
+                <h2 style={{ textAlign: "center" }}>Creer un nouveau client</h2>
+              }
+            />
+            <CardContent>
+              <Stack spacing={3}>
+                <TextField
+                  id="outlined-basic"
+                  label="Nom"
+                  variant="outlined"
+                  name={"nom"}
+                  onChange={(e) => setNom(e.target.value)}
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Prenom"
+                  variant="outlined"
+                  name={"prenom"}
+                  onChange={(e) => setPrenom(e.target.value)}
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Adresse"
+                  variant="outlined"
+                  name={"Adresse"}
+                  onChange={(e) => setAdresse(e.target.value)}
+                />
+              </Stack>
+            </CardContent>
+            <CardActions sx={{ justifyContent: "flex-end" }}>
+              <Button variant={"contained"} onClick={retour}>
+                Retour
+              </Button>
+              <Button
+                variant={"contained"}
+                type={"submit"}
+                onClick={handleCreate}
+              >
+                Ajouter
+              </Button>
+            </CardActions>
+          </Card>
+        </Form>
+      </FormikProvider>
+    </Navbar>
   );
 };
 

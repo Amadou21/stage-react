@@ -41,49 +41,47 @@ const UpdateClientPage = () => {
   };
 
   return (
-    <div>
-      <Navbar>
-        <Card>
-          <CardHeader title={<h1>tu vas mettre à jour le client ici</h1>} />
-          <CardContent>
-            <Stack spacing={3}>
-              <TextField
-                id="outlined-basic"
-                label="Nom"
-                variant="outlined"
-                value={nom}
-                name={"nom"}
-                onChange={(e) => setNom(e.target.value)}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Prenom"
-                variant="outlined"
-                value={prenom}
-                name={"prenom"}
-                onChange={(e) => setPrenom(e.target.value)}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Adresse"
-                variant="outlined"
-                name={"Adresse"}
-                value={adresse}
-                onChange={(e) => setAdresse(e.target.value)}
-              />
-            </Stack>
-          </CardContent>
-          <CardActions sx={{ justifyContent: "flex-end" }}>
-            <Button variant={"contained"} onClick={retour}>
-              Annuler
-            </Button>
-            <Button variant={"contained"} onClick={handleUpdate}>
-              Modifier
-            </Button>
-          </CardActions>
-        </Card>
-      </Navbar>
-    </div>
+    <Navbar>
+      <Card>
+        <CardHeader title={<h1>tu vas mettre à jour le client ici</h1>} />
+        <CardContent>
+          <Stack spacing={3}>
+            <TextField
+              id="outlined-basic"
+              label="Nom"
+              variant="outlined"
+              value={nom}
+              name={"nom"}
+              onChange={(e) => setNom(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Prenom"
+              variant="outlined"
+              value={prenom}
+              name={"prenom"}
+              onChange={(e) => setPrenom(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Adresse"
+              variant="outlined"
+              name={"Adresse"}
+              value={adresse}
+              onChange={(e) => setAdresse(e.target.value)}
+            />
+          </Stack>
+        </CardContent>
+        <CardActions sx={{ justifyContent: "flex-end" }}>
+          <Button variant={"contained"} onClick={retour}>
+            Annuler
+          </Button>
+          <Button variant={"contained"} onClick={handleUpdate}>
+            Modifier
+          </Button>
+        </CardActions>
+      </Card>
+    </Navbar>
   );
 };
 

@@ -1,4 +1,4 @@
-import { httpClient, urlBase } from "../shared/service.utils";
+import { httpClient, urlBase } from "../../shared/service.utils";
 
 const url = urlBase + "/clients";
 

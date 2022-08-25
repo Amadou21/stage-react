@@ -18,26 +18,21 @@ const greenTheme = createTheme({
   },
 });
 
-const espacement = ({ children }) => {
-  return (
-    <div>
-      <Container sx={{ marginLeft: 12 }}>{children}</Container>
-    </div>
-  );
+const Espacement = ({ children }) => {
+  return <Container sx={{ marginLeft: 12 }}>{children}</Container>;
 };
 
 const TestContextPage = () => {
   const mon_button = <Button variant="contained">Hello</Button>;
 
   return (
-    <div>
-      <Navbar />
-      <espacement>
+    <Navbar>
+      <Espacement>
         <ThemeProvider theme={redTheme}>{mon_button}</ThemeProvider>
         <ThemeProvider theme={greenTheme}>{mon_button}</ThemeProvider>
         {mon_button}
-      </espacement>
-    </div>
+      </Espacement>
+    </Navbar>
   );
 };
 

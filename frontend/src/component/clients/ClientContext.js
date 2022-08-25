@@ -1,5 +1,17 @@
+/**
+ * cette page fornit toutes les dependances des composant client
+ */
+
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { create, destroy, findAll, update } from "./client.service";
+import { useCreate } from "../../shared/store.utils";
+// import { create, destroy, findAll, update } from "./client.service";
+// import { create, destroy, update } from "./client.service";
+import {
+  useClients,
+  useDeleteClient,
+  useUpdateClient,
+  useCreateClient,
+} from "./client.store";
 
 // ici c'est une initialisation des elements ou champs qu'offre le context ClientContext
 export const ClientContext = createContext({
@@ -10,6 +22,7 @@ export const ClientContext = createContext({
   laRecherche: "",
   clientTrouverParRecherche: [],
   setLaRecherche: (laRecherche) => {},
+  isLoading: true,
 });
 
 export const useClientContext = () => useContext(ClientContext);
@@ -25,18 +38,24 @@ const match = (client, laRecherche) => {
 };
 
 const ClientProvider = ({ children }) => {
-  // state
-  const [clients, setClients] = useState([]);
+  //useClient
+  const { clients, isLoading } = useClients();
+  const { destroy, isSuccess } = useDeleteClient();
+  const { update } = useUpdateClient();
+  const { create } = useCreateClient();
+
+  // useState
+  // const [clients, setClients] = useState([]);
   const [laRecherche, setLaRecherche] = useState("");
   const [clientTrouverParRecherche, setClientTrouverParRecherche] =
     useState(clients);
   const [compteur, setCompteur] = useState(1);
-  // effect
-  useEffect(() => {
-    findAll().then((clients) => setClients(clients));
-  }, [compteur]);
+  // useEffect
+  // useEffect(() => {
+  // findAll().then((clients) => setClients(clients));
+  // }, [compteur]);
 
-  console.log(clients);
+  // console.log(clients);
 
   useEffect(() => {
     const _laRecherche = laRecherche.toLowerCase();
@@ -52,13 +71,17 @@ const ClientProvider = ({ children }) => {
 
   // fonction pour ajouter (creer) un client
   const ajouterClient = (client) => {
+    //(client)
+    // useCreateClient();
+    //------------------------------------------------------------------------------
+    create(client);
+    setCompteur(compteur + 1);
+    //------------------------------------------------------------------------------
     // setCompeurs(compteur + 1);
     // client = { ...client };
     // console.log(client);
-    create(client);
     // ici setClients recupère tous les anciens clients et rajouter le client courant
     // setClients([...clients, client]);
-    setCompteur(compteur + 1);
   };
 
   // modifier un client (on compare tous les clients avec le client recuperer et lorsqu'on
@@ -77,6 +100,9 @@ const ClientProvider = ({ children }) => {
     // const _clients = clients.filter((client) => client.idClient !== id);
     // setClients(_clients);
     destroy(id);
+    if (isSuccess) {
+      alert("Client deleted");
+    }
     setCompteur(compteur + 1);
   };
 
@@ -89,6 +115,7 @@ const ClientProvider = ({ children }) => {
     laRecherche,
     clientTrouverParRecherche,
     setLaRecherche,
+    isLoading,
   };
   //------------------------------------------------------------------------------
 
